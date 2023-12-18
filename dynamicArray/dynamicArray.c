@@ -199,13 +199,57 @@ int dynamicArrayDataAppointPosData(dynamicArray *pArray, int pos);
 //动态数组删除指定的元素/
 int dynamicArrayDeleteAppointData(dynamicArray *pArray, ELEMENTTYPE val);
 {
-    
+    for (int idx = pArray->len-1; idx >=0 ; idx--)
+    {
+        if (val ==pArray->data[idx])
+        {
+            dynamicArrayDeleteAppointData(pArray, idx);
+        }
+    }
+    return ON_SUCCESS;
 }
 //动态数组的销毁/
 int dynamicArrayDestroy(dynamicArray *pArray);
+{
+    if (pArray == NULL)
+    {
+        return NULL_PTR;
+    }
 
+    if (PArray->data != NULL)
+    {
+        free(pArray->data);
+        pArray->data = NULL;
+    }
+    return ON_SUCCESS;
+}
 //获取数组的大小/
 int dynamicArrayGetSize(dynamicArray *pArray, int pSize);
+{
+    if (pArray = NULL)
+    {
+        return NULL_PTR;
+    }
+    ///
+    if (pSize !=NUll)
+    {
+        *pSize = pArray->len;
+    }
+    return ON_SUCCESS
+}
 
 //获取数组的容量/
-int dynamicArrayGetCapacity(dynamicArray *pArray, int pCapacity);
+int dynamicArrayGetCapacity(dynamicArray *pArray, int *pCapacity)
+{
+    if (!pArray)
+    {
+        return NULL_PTR;
+    }
+
+    if (!pCapacity)
+    {
+        *pCapacity = pArray->capacity;
+    }
+
+    return ON_SUCCESS;
+}
