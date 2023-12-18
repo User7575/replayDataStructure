@@ -15,7 +15,7 @@ enum STATUS_CODE
 
 //静态函数前置声明/
 static expandDynamicCapacity(dynamicArray *pArray)
-
+static shrinkDynamicCapacity(dynamicArray *pArray)
 //动态数组的初始化/
 int dynamicArrayInit(dynamicArray *pArray, int capacity);
 {
@@ -77,7 +77,7 @@ static expandDynamicCapacity(dynamicArray *pArray)
 
     //更新动态数组的容量/
     pArray-> capacity = needExpandCapacity;
-    
+
     return ret;
 }
 
@@ -121,18 +121,86 @@ int dynamicArrayAppointposInsertData(dynamicArray *pArray, int pos,ELEMENTTYPE v
     return ON_SUCCESS;
 }
 
-//动态数组修改位置指定位置的数据/
+//动态数组修改指定位置的数据/
 int dynamicArrayModifyAppointposData(dynamicArray *pArray, int pos,ELEMENTTYPE vall);
+{
+    //指针判空/
+    if (pArray == NUll)
+    {
+        return NULL_PTR;
+    }
+    //判断位置的合法性/
+    if (pos < 0 || pos >= pArray->len)
+    {
+        return INVALID_ACCESS;
+    }
+}
+
 
 //动态数组删除数据（默认情况下删除最后末尾的数据）/
 int dynamicArrayDeleData(dynamicArray *pArray);
+{
+    dynamicArrayDataAppointPosData(pArray,pArray->len-1);
+}
+
+
+status int shrinkDynamicCapacity(dynamicArray *pArray)
+{
+    int needshrinkCapacity = pAraay->capacity - (pAraay->capacity >>2);
+
+    pArray->data = (ELEMENTTYPE *)malloc(sizeof(ELEMENTTYPE) * needshrinkCapacity);
+    if (pArray->data == NULL)
+    {
+        return MALLOC_ERROR;
+    }
+    //拷贝之前的数据到新空间/
+    for (int idx = pos; idx < pArray->len; idx++)
+    {
+        pArray->data[idx] = tmpPtr[idx];
+    }
+    if (tmpPtr != NULL)
+    {
+        free(tmpPtr);
+        tmpPtr = NULL;
+    }
+    //更新容量/
+    pArray->capacity = needshrinkCapacity;
+    return ON_SUCCESS;
+}
 
 //动态数组删除指定位置数据/
 int dynamicArrayDataAppointPosData(dynamicArray *pArray, int pos);
+{
+    if (pArray == HULL)
+    {
+        return NULL_PTR;
+    }
 
+    if (pos<0 || pos>= pArray->len)
+    {
+        return INVALID_ACCESS;
+    }
+    //缩容/
+    if ((pArray->len + (pArray->len >> 1)) < pArray->capacity)
+    {
+        shrinkDynamicCapacity(pArray);
+    }
+    //数据前移/
+    for (int idx = pos; idx < pArray->len; idx++)
+    {
+        pArray->data[idx] = pArray->data[idx + 1];
+    }
+
+    //更新数组大小/
+    (pArray->len)--;
+    return ON_SUCCESS
+
+}
 //动态数组删除指定的元素/
 int dynamicArrayDeleteAppointData(dynamicArray *pArray, ELEMENTTYPE val);
-
+{
+    
+}
 //动态数组的销毁/
 int dynamicArrayDestroy(dynamicArray *pArray);
 
