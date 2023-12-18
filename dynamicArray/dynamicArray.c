@@ -1,4 +1,4 @@
-#include "dynamicArray"
+#include "dynamicArray.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -17,7 +17,7 @@ enum STATUS_CODE
 static expandDynamicCapacity(dynamicArray *pArray)
 static shrinkDynamicCapacity(dynamicArray *pArray)
 //动态数组的初始化/
-int dynamicArrayInit(dynamicArray *pArray, int capacity);
+int dynamicArrayInit(dynamicArray *pArray, int capacity)
 {
     if (pArray == NULL)
     {
@@ -46,12 +46,12 @@ int dynamicArrayInit(dynamicArray *pArray, int capacity);
 //动态数组插入数据(默认查到数组的末尾)/
 int dynamicArrayInserData(dynamicArray *pArray, ELEMENTTYPE vall);
 {
-    dynamicArrayAppointPosInserData
+    dynamicArrayAppointPosInsertData
 }
 //动态数组扩容/
 static expandDynamicCapacity(dynamicArray *pArray)
 {
-    intret = 0;
+    int ret = 0;
 
     int needExpandCapacity = pArray->capacity + (pArray->capacity>>1);
     //备份指针/
@@ -144,9 +144,9 @@ int dynamicArrayDeleData(dynamicArray *pArray);
 }
 
 
-status int shrinkDynamicCapacity(dynamicArray *pArray)
+status int shrinkDynamicCapacity(dynamicArray *pArray);
 {
-    int needshrinkCapacity = pAraay->capacity - (pAraay->capacity >>2);
+    int needshrinkCapacity = pAraay->capacity - (pArrayy->capacity >>2);
 
     pArray->data = (ELEMENTTYPE *)malloc(sizeof(ELEMENTTYPE) * needshrinkCapacity);
     if (pArray->data == NULL)
@@ -251,5 +251,26 @@ int dynamicArrayGetCapacity(dynamicArray *pArray, int *pCapacity)
         *pCapacity = pArray->capacity;
     }
 
+    return ON_SUCCESS;
+}
+//获取指定位置的元素数据/
+int dynamicArrayGetAppointPosVal(dynamicArray *pArray, int pos, ELEMENTTYPE *pVal)
+{
+    ///
+    if (!pArray == NULL)
+    {
+        return NULL_PTR;
+    }
+    //判断位置合法性/
+    if (pos < 0 || pos >= pArray->len)
+    {
+        return INVALID_ACCESS;
+    }
+
+    if (pVal)
+    {
+        *pVal = pArray->data[pos];
+    }
+    
     return ON_SUCCESS;
 }
