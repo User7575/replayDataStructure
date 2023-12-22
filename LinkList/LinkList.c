@@ -1,4 +1,4 @@
-#include "linklist.h"
+#include "LinkList.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -15,55 +15,55 @@ enum STATUS_CODE
 
 /* 静态函数只在本源文件(.c)使用 */
 /* 静态前置声明 */
-static int linklistAccordAppointValGetPos(linklist * pList, ELEMENTTYPE val, int *pPos);
+static int LinkListAccordAppointValGetPos(LinkList * pList, ELEMENTTYPE val, int *pPos);
 
 /* 链表初始化 */
-int linklistInit(linklist **pList)
+int LinkListInit(LinkList **pList)
 {
     int ret = 0;
-    linklist *list = (linklist *)malloc(sizeof(linklist) * 1);
-    if (list == NULL)
+    LinkList *List = (LinkList *)malloc(sizeof(LinkList) * 1);
+    if (List == NULL)
     {
         return MALLOC_ERROR;
     }
     /* 清空脏数据 */
-    memset(list, 0, sizeof(linklist) * 1);
+    memset(List, 0, sizeof(LinkList) * 1);
 
-    list->head = (linkNode *)malloc(sizeof(linkNode) * 1);
-    if (list->head == NULL)
+    List->head = (LinkNode *)malloc(sizeof(LinkNode) * 1);
+    if (List->head == NULL)
     {
         return MALLOC_ERROR;
     }
     /* 清空脏数据 */
-    memset(list->head, 0, sizeof(linkNode) * 1);
-    list->head->data = 0;
-    list->head->next = NULL;
+    memset(List->head, 0, sizeof(LinkNode) * 1);
+    List->head->data = 0;
+    List->head->next = NULL;
     /* 初始化的时候, 尾指针 = 头指针 */
-    list->tail = list->head;
+    List->tail = List->head;
 
     /* 链表的长度为0 */
-    list->len = 0;
+    List->len = 0;
 
     /* 二级指针 */
-    *pList = list;
+    *pList = List;
     return ret;
 }
 
 /* 链表头插 */
-int linklistHeadInsert(linklist * pList, ELEMENTTYPE val)
+int LinkListHeadInsert(LinkList * pList, ELEMENTTYPE val)
 {
-    return linklistAppointPosInsert(pList, 0, val);
+    return LinkListAppointPosInsert(pList, 0, val);
 }
 
 /* 链表尾插 */
-int linklistTailInsert(linklist * pList, ELEMENTTYPE val)
+int LinkListTailInsert(LinkList * pList, ELEMENTTYPE val)
 {
     /* todo... */
-    return linklistAppointPosInsert(pList, pList->len, val);
+    return LinkListAppointPosInsert(pList, pList->len, val);
 }
 
 /* 链表指定位置插入 */
-int linklistAppointPosInsert(linklist * pList, int pos, ELEMENTTYPE val)
+int LinkListAppointPosInsert(LinkList * pList, int pos, ELEMENTTYPE val)
 {
     int ret = 0;
     if (pList == NULL)
@@ -77,13 +77,13 @@ int linklistAppointPosInsert(linklist * pList, int pos, ELEMENTTYPE val)
     }
 
     /* 封装结点 */
-    linkNode * newNode = (linkNode *)malloc(sizeof(linkNode) * 1);
+    LinkNode * newNode = (LinkNode *)malloc(sizeof(LinkNode) * 1);
     if (newNode == NULL)
     {
         return MALLOC_ERROR;
     }
     /* 清除脏数据 */
-    memset(newNode, 0, sizeof(linkNode) * 1);
+    memset(newNode, 0, sizeof(LinkNode) * 1);
 #if 1
     newNode->data = 0;
     newNode->next = NULL;
@@ -93,9 +93,9 @@ int linklistAppointPosInsert(linklist * pList, int pos, ELEMENTTYPE val)
 
 #if 1
     /* 从虚拟头结点开始遍历 */
-    linkNode * travelNode = pList->head;
+    LinkNode * travelNode = pList->head;
 #else
-    linkNode * travelNode = pList->head->next;
+    LinkNode * travelNode = pList->head->next;
 #endif
 
 int flag = 0;
@@ -132,19 +132,19 @@ int flag = 0;
 }
 
 /* 链表头删 */
-int linklistHeadDel(linklist * pList)
+int LinkListHeadDel(LinkList * pList)
 {
-    return linklistDelAppointPos(pList, 1);
+    return LinkListDelAppointPos(pList, 1);
 }
 
 /* 链表尾删 */
-int linklistTailDel(linklist * pList)
+int LinkListTailDel(LinkList * pList)
 {
-    return linklistDelAppointPos(pList, pList->len);
+    return LinkListDelAppointPos(pList, pList->len);
 }
 
 /* 链表指定位置删 */
-int linklistDelAppointPos(linklist * pList, int pos)
+int LinkListDelAppointPos(LinkList * pList, int pos)
 {
     int ret = 0;
     if (pList == NULL)
@@ -158,9 +158,9 @@ int linklistDelAppointPos(linklist * pList, int pos)
     }
 
 #if 1
-    linkNode * travelNode = pList->head;
+    LinkNode * travelNode = pList->head;
 #else
-    linkNode * travelNOde = pList->head->next;
+    LinkNode * travelNOde = pList->head->next;
 #endif 
 
     while (--pos)
@@ -169,7 +169,7 @@ int linklistDelAppointPos(linklist * pList, int pos)
         travelNode = travelNode->next;
     }   
     // 跳出循环找到的是哪一个结点？
-    linkNode * needDelNode = travelNode->next;
+    LinkNode * needDelNode = travelNode->next;
     travelNode->next = needDelNode->next; 
 
     /* 释放内存 */
@@ -185,17 +185,17 @@ int linklistDelAppointPos(linklist * pList, int pos)
 }
 
 /* 根据指定的元素得到在链表中所在的位置 */
-static int linklistAccordAppointValGetPos(linklist * pList, ELEMENTTYPE val, int *pPos)
+static int LinkListAccordAppointValGetPos(LinkList * pList, ELEMENTTYPE val, int *pPos)
 {
     /* 静态函数只给本源文件的函数使用, 不需要判断合法性 */
     int ret;
     
 #if 0
     int pos = 0;
-    linkNode *travelNode = pList->head;
+    LinkNode *travelNode = pList->head;
 #else
     int pos = 1;
-    linkNode *travelNode = pList->head->next;
+    LinkNode *travelNode = pList->head->next;
 #endif
     while (travelNode != NULL)
     {
@@ -205,6 +205,13 @@ static int linklistAccordAppointValGetPos(linklist * pList, ELEMENTTYPE val, int
             *pPos = pos;
             return pos;
         }
+        cmp = compareFunc(val. travelNOde->data);
+        if (cmp = 0)
+        {
+            *pPos = pos;
+            return pos;
+        }
+
         travelNode = travelNode->next;
         pos++;
     }
@@ -215,7 +222,7 @@ static int linklistAccordAppointValGetPos(linklist * pList, ELEMENTTYPE val, int
 }
 
 /* 链表删除指定的数据 */
-int linklistDelAppointData(linklist * pList, ELEMENTTYPE val)
+int LinkListDelAppointData(LinkList * pList, ELEMENTTYPE val, int (* comparaFunc)(ELEMENTTYPE,ELEMENTTYPE))
 {
     int ret = 0;
     /* 元素在链表中的位置 */
@@ -223,17 +230,17 @@ int linklistDelAppointData(linklist * pList, ELEMENTTYPE val)
 
     /* 链表的长度 */
     int size = 0;
-    while (linklistGetLength(pList, &size) && pos != NOT_FIND)
+    while (LinkListGetLength(pList, &size) && pos != NOT_FIND)
     {
         /* 根据指定的元素得到在链表中所在的位置 */
-        linklistAccordAppointValGetPos(pList, val, &pos);
-        linklistDelAppointPos(pList, pos);
+        LinkListAccordAppointValGetPos(pList, val, &pos, comparaFunc);
+        LinkListDelAppointPos(pList, pos);
     }
     return ret;
 }
 
 /* 获取链表的长度 */
-int linklistGetLength(linklist * pList, int *pSize)
+int LinkListGetLength(LinkList * pList, int *pSize)
 {
     int ret = 0;
     if (pList == NULL)
@@ -250,14 +257,14 @@ int linklistGetLength(linklist * pList, int *pSize)
 }
 
 /* 链表的销毁 */
-int linklistDestroy(linklist * pList)
+int LinkListDestroy(LinkList * pList)
 {
     int ret = 0;
     /* 我们使用头删释放链表 */
     int size = 0;
-    while (linklistGetLength(pList, &size))
+    while (LinkListGetLength(pList, &size))
     {
-        linklistHeadDel(pList);
+        LinkListHeadDel(pList);
     }
 
     if (pList->head != NULL)
@@ -271,7 +278,7 @@ int linklistDestroy(linklist * pList)
 }
 
 /* 链表遍历接口 */
-int linklistForeach(linklist * pList)
+int LinkListForeach(LinkList * pList, int (*printFunc)(ELEMENTTYPE))
 {
     int ret = 0;
     if (pList == NULL)
@@ -281,48 +288,21 @@ int linklistForeach(linklist * pList)
 
 #if 0
     /* travelNode指向虚拟头结点 */
-    linkNode * travelNode = pList->head;
+    LinkNode * travelNode = pList->head;
     while (travelNode->next != NULL)
     {
+
         travelNode = travelNode->next;
         printf("travelNode->data:%d\n", travelNode->data);
     }
 #else
     /* travelNode 指向链表第一个元素 */
-    linkNode * travelNode = pList->head->next;
-    while (travelNode != NULL)
-    {
-        printf("travelNode->data:%d\n", travelNode->data);
-        travelNode = travelNode->next;
-    }
-#endif
-    return ret;
-}
-
-
-{
-    int ret = 0;
-    if (pList == NULL)
-    {
-        return NULL_PTR
-    }
-
-#if 0
-//travelNode 指向虚拟头结点/
-    LinkNode * travelNode = pList->head;
-    while (travelNode->next != NULL)
-    {
-        travelNode = travelNode->next;
-        printf("travelNode->data:%d\n", travelNode->data);
-    }
-#endif
-    //travelNode 指向链表第一个元素/
     LinkNode * travelNode = pList->head->next;
     while (travelNode != NULL)
     {
-        printf ("travelNode->data:%d\n", travelNode->data);
+        printf("travelNode->data:%p\n", travelNode->data);
         travelNode = travelNode->next;
     }
-
+#endif
     return ret;
 }

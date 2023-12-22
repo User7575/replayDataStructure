@@ -1,7 +1,8 @@
 #ifndef __LINKLIST_H_
 #define __LINKLIST_H_
 
-#define ELEMENTTYPE int 
+
+#define ELEMENTTYPE void*
 
 //链表结点取别名/ 
 typedef struct LinkNode
@@ -25,7 +26,7 @@ typedef struct LinkList
 int LinkListInit (LinkList **pList);
 
 //链表头插/
-int LinkListheadInsert (LinkList * PList, ELEMENTTYPE val);
+int LinkListHeadInsert (LinkList * PList, ELEMENTTYPE val);
 
 //链表尾插/
 int LinkListTailTnsert (LinkList * PList, ELEMENTTYPE val);
@@ -43,7 +44,7 @@ int LinkListTailDel (LinkList * PList);
 int LinkListDelAppointPos (LinkList * PList, int pos);
 
 //链表删除指定位置/
-int LinkListDelAppointData (LinkList * PList, ELEMENTTYPE val);
+int LinkListDelAppointData (LinkList * PList, ELEMENTTYPE val, int (* comparaFunc)(ELEMENTTYPE,ELEMENTTYPE));
 
 //获取链表的长度/
 int LinkListGetLength (LinkList * PList, int *pSIze);
@@ -52,8 +53,6 @@ int LinkListGetLength (LinkList * PList, int *pSIze);
 int LinkListDestroy (LinkList * pList);
 
 //遍历链表接口/
-int LinkListForeach(LinkList * pList)
-{
+int LinkListForeach(LinkList * pList, int (*printFunc)(ELEMENTTYPE));
 
-}
-
+#endif 
